@@ -31,10 +31,11 @@ class Game
 
   attr_accessor :word, :word_split
 
-  def initialize(word_list)
+  def initialize
+    @words = ["apple", "coconut", "carrot", "skein", "metronome"]
     @attempts = 5
     @image = Image.new
-    @word = word_list.sample
+    @word = @words.sample
     @word_split = @word.split('')
     @word_in_progress = Array.new(@word.length, "_ ")
   end
@@ -42,11 +43,23 @@ class Game
   def play
     if @word_split == @word_in_progress
       puts "Congratulations! You won!"
-      print @word
+      puts @word
     elsif @attempts == 0
       puts "You lost."
-      print @word
+      puts @word
     end
+  end
+
+  def play_again
+    puts " Would you like to play again?"
+    play_again = gets.chomp
+
+    if play_again == "yes"
+      puts Game.new.round
+    else
+      puts "goodbye!"
+    end
+
   end
 
   def round
@@ -78,15 +91,25 @@ class Game
 
       play
     end
-
+    play_again
 
   end
+
 end
 
-new_word = Game.new(words)
+
+new_word = Game.new
 # puts new_word.word
 # puts "#{new_word.word_split}"
+
 puts new_word.round
+
+
+
+# if user answers yes run Game
+
+
+#if user answers no exit
 
 
 # ,d88b.d88b,
