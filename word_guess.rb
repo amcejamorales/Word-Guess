@@ -1,31 +1,30 @@
+require "colorize"
+
 # array of words
 words = ["apple", "coconut", "carrot", "skein", "metronome"]
-
-# heart_parts.each do |heart_part|
-#   loser_img += "#{heart_part}\n"
-#   puts loser_img
-#
-# end
 
 class Image
   attr_writer :num_attempts
   def initialize
     @num_attempts = 5
-    @heart_parts = ["  ,d88b.d88b,", "  88888888888", "  `Y8888888Y'", "    `Y888Y'", "      `Y'"]
+    @heart_parts = ["  ,d88b.d88b,  ", "  88888888888  ", "  `Y8888888Y'  ", "    `Y888Y'    ", "      `Y'      "]
 
   end
 
   def print_heart
     loser_img = ""
     @num_attempts.times do |attempt|
-      loser_img += "#{@heart_parts[attempt]}\n"
+      loser_img += "#{@heart_parts[attempt]}".blue.on_red.blink
+      loser_img += "\n"
+    end
+    (5 - @num_attempts).times do
+      loser_img += "               ".blue.on_red.blink
+      loser_img += "\n"
     end
     return loser_img
 
   end
 end
-
-
 
 
 class Game
@@ -43,10 +42,11 @@ class Game
   def play
     if @word_split == @word_in_progress
       puts "Congratulations! You won!"
+      print @word
     elsif @attempts == 0
       puts "You lost."
+      print @word
     end
-    print @word
   end
 
   def round
@@ -66,7 +66,7 @@ class Game
         user_letter_indices.each do |index|
           @word_in_progress[index] = user_letter
         end
-        puts "#{@image.print_heart}"
+        print "#{@image.print_heart}"
         # look at how to find indices for multiple occurences of a letter
       else
         # update attempts count
