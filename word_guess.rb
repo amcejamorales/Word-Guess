@@ -37,25 +37,25 @@ class Game
     @image = Image.new
     @word = word_list.sample
     @word_split = @word.split('')
-    @word_in_progress = Array.new(@word.length, "_")
+    @word_in_progress = Array.new(@word.length, "_ ")
   end
 
   def play
-    if @attempts != 0 && @word_split == @word_in_progress
-      print "Congratulations! You won!"
-      puts @word_split
+    if @word_split == @word_in_progress
+      puts "Congratulations! You won!"
     elsif @attempts == 0
       puts "You lost."
     end
+    print @word
   end
 
   def round
     # get word length
     # loop through word length and puts "_" that many times
-    while @attempts > 0
+    while @attempts != 0 && @word_split != @word_in_progress
+      puts "\n"
       print "Guess a letter: "
-      puts @word_in_progress
-      puts "\n\n"
+      puts @word_in_progress.join
       user_letter = gets.chomp
 
       # updates word if user guesses letter correctly
@@ -67,12 +67,10 @@ class Game
           @word_in_progress[index] = user_letter
         end
         puts "#{@image.print_heart}"
-        puts @word_in_progress
         # look at how to find indices for multiple occurences of a letter
       else
         # update attempts count
         @attempts -= 1
-        puts @attempts
         # update image
         @image.num_attempts = @attempts
         puts "#{@image.print_heart}"
@@ -86,8 +84,8 @@ class Game
 end
 
 new_word = Game.new(words)
-puts new_word.word
-puts "#{new_word.word_split}"
+# puts new_word.word
+# puts "#{new_word.word_split}"
 puts new_word.round
 
 
