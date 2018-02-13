@@ -1,14 +1,40 @@
 # array of words
 words = ["apple", "coconut", "carrot", "skein", "metronome"]
 
+# heart_parts.each do |heart_part|
+#   loser_img += "#{heart_part}\n"
+#   puts loser_img
+#
+# end
+
+class Image
+  attr_writer :num_attempts
+  def initialize
+    @num_attempts = 5
+    @heart_parts = ["  ,d88b.d88b,", "  88888888888", "  `Y8888888Y'", "    `Y888Y'", "      `Y'"]
+
+  end
+
+  def print_heart
+    loser_img = ""
+    @num_attempts.times do |attempt|
+      loser_img += "#{@heart_parts[attempt]}\n"
+    end
+    return loser_img
+
+  end
+end
 
 
-class Word
+
+
+class Game
 
   attr_accessor :word, :word_split
 
   def initialize(word_list)
     @attempts = 5
+    @image = Image.new
     @word = word_list.sample
     @word_split = @word.split('')
     @word_in_progress = Array.new(@word.length, "_")
@@ -40,6 +66,7 @@ class Word
         user_letter_indices.each do |index|
           @word_in_progress[index] = user_letter
         end
+        puts "#{@image.print_heart}"
         puts @word_in_progress
         # look at how to find indices for multiple occurences of a letter
       else
@@ -47,25 +74,25 @@ class Word
         @attempts -= 1
         puts @attempts
         # update image
+        @image.num_attempts = @attempts
+        puts "#{@image.print_heart}"
       end
+
       play
     end
 
 
-    end
-
-
-
+  end
 end
 
-new_word = Word.new(words)
+new_word = Game.new(words)
 puts new_word.word
 puts "#{new_word.word_split}"
 puts new_word.round
 
 
-  ,d88b.d88b,
-  88888888888
-  `Y8888888Y'
-    `Y888Y'
-      `Y'
+# ,d88b.d88b,
+# 88888888888
+# `Y8888888Y'
+#   `Y888Y'
+#     `Y'
