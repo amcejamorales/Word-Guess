@@ -1,6 +1,8 @@
 # array of words
 words = ["apple", "coconut", "carrot", "skein", "metronome"]
 
+
+
 class Word
 
   attr_accessor :word, :word_split
@@ -27,14 +29,17 @@ class Word
     while @attempts > 0
       print "Guess a letter: "
       puts @word_in_progress
+      puts "\n\n"
       user_letter = gets.chomp
 
       # updates word if user guesses letter correctly
       if @word_split.include?(user_letter)
         # does something
-        user_letter_index = @word_split.index(user_letter)
+        user_letter_indices = @word_split.each_index.select {|i| @word_split[i] == user_letter}
 
-        @word_in_progress[user_letter_index] = user_letter
+        user_letter_indices.each do |index|
+          @word_in_progress[index] = user_letter
+        end
         puts @word_in_progress
         # look at how to find indices for multiple occurences of a letter
       else
@@ -57,3 +62,10 @@ new_word = Word.new(words)
 puts new_word.word
 puts "#{new_word.word_split}"
 puts new_word.round
+
+
+  ,d88b.d88b,
+  88888888888
+  `Y8888888Y'
+    `Y888Y'
+      `Y'
