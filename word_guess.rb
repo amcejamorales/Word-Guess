@@ -1,8 +1,6 @@
 require "colorize"
 
-# array of words
-words = ["apple", "coconut", "carrot", "skein", "metronome"]
-
+# class Image generates beating heart
 class Image
   attr_writer :num_attempts
   def initialize
@@ -26,7 +24,7 @@ class Image
   end
 end
 
-
+# class Game logic runs game
 class Game
 
   attr_accessor :word, :word_split
@@ -40,28 +38,6 @@ class Game
     @word_in_progress = Array.new(@word.length, "_ ")
   end
 
-  def play
-    if @word_split == @word_in_progress
-      puts "Congratulations! You won!"
-      puts @word
-    elsif @attempts == 0
-      puts "You lost."
-      puts @word
-    end
-  end
-
-  def play_again
-    puts " Would you like to play again?"
-    play_again = gets.chomp
-
-    if play_again == "yes"
-      puts Game.new.round
-    else
-      puts "goodbye!"
-    end
-
-  end
-
   def round
     # get word length
     # loop through word length and puts "_" that many times
@@ -69,15 +45,20 @@ class Game
       puts "\n"
       print "Guess a letter: "
       puts @word_in_progress.join
-      user_letter = gets.chomp
+      user_input = gets.chomp
+      until /[a-z]+/.match(user_input)
+        puts "Guess a letter: "
+        user_input = gets.chomp
+
+      end
 
       # updates word if user guesses letter correctly
-      if @word_split.include?(user_letter)
+      if @word_split.include?(user_input)
         # does something
-        user_letter_indices = @word_split.each_index.select {|i| @word_split[i] == user_letter}
+        user_input_indices = @word_split.each_index.select {|i| @word_split[i] == user_input}
 
-        user_letter_indices.each do |index|
-          @word_in_progress[index] = user_letter
+        user_input_indices.each do |index|
+          @word_in_progress[index] = user_input
         end
         print "#{@image.print_heart}"
         # look at how to find indices for multiple occurences of a letter
@@ -89,31 +70,41 @@ class Game
         puts "#{@image.print_heart}"
       end
 
-      play
+      if @word_split == @word_in_progress
+        puts "Congratulations, you won!"
+      elsif @attempts == 0
+        puts "You lost."
+      end
+
+
     end
-    play_again
+    puts @word
 
   end
 
 end
 
+# allows user to play multiple times
+def play_game
+  game = Game.new
+  puts game.round
+  play_again
+end
 
-new_word = Game.new
-# puts new_word.word
-# puts "#{new_word.word_split}"
+# controls logic for multiple games
+def play_again
+  puts "Would you like to play again?"
+  user_choice = gets.chomp.downcase
 
-puts new_word.round
+  case user_choice
+  when "yes","y"
+    play_game
+  when "n","no"
+    puts "Goodbye!"
+  else
+    puts "Didn't catch that."
+    play_again
+  end
+end
 
-
-
-# if user answers yes run Game
-
-
-#if user answers no exit
-
-
-# ,d88b.d88b,
-# 88888888888
-# `Y8888888Y'
-#   `Y888Y'
-#     `Y'
+play_game
